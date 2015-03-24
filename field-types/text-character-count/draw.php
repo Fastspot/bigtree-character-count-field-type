@@ -26,18 +26,22 @@
 		}
 	?>
 	<div style="color: #999; display: block; margin: 5px 0 0;">
-		<span class="cc_display"><?=($max ? ($max - strlen($field["value"])) : strlen($field["value"]))?></span> Characters<? if ($max) { ?> Left<? } ?>
+		<span class="cc_counter"><?=($max ? ($max - strlen($field["value"])) : strlen($field["value"]))?></span> Characters<? if ($max) { ?> Left<? } ?>
 	</div>
 </div>
 <script>
-	$("#<?=$field["id"]?>").on("keyup",function() {
-		var length = $(this).val().length;
-		var display = $(this).parent().find(".cc_display");
+	(function() {
+		var $field = $("#<?=$field["id"]?>");
+		var $counter = $field.parent().find(".cc_counter");
 
-		<? if ($max) { ?>
-		display.html(<?=$max?> - length);
-		<? } else { ?>
-		display.html(length);
-		<? } ?>
-	});
+		$field.on("keyup",function() {
+			var length = $field.val().length;
+	
+			<? if ($max) { ?>
+			$counter.html(<?=$max?> - length);
+			<? } else { ?>
+			$counter.html(length);
+			<? } ?>
+		});
+	})();
 </script>
